@@ -9,9 +9,9 @@ use_plugin("python.distutils")
 
 
 name = "EG2"
-default_task = "publish"
+defaultTask = "publish"
 
 
 @init
-def set_properties(project):
+def setProperties(project):
     pass

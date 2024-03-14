@@ -2,57 +2,57 @@
 from datetime import datetime
 import hashlib
 
-class HotelStay():
+class hotelStay():
     def __init__(self, idcard, localizer, numdays, roomtype  ):
-        self.__alg = "SHA-256"
-        self.__type = roomtype
-        self.__idcard = idcard
-        self.__localizer = localizer
+        self.alg = "SHA-256"
+        self.type = roomtype
+        self.idCard = idcard
+        self.localizer = localizer
         justnow = datetime.utcnow()
-        self.__arrival = justnow
+        self.arrival = justnow
         #timestamp is represented in seconds.miliseconds
         #to add the number of days we must express numdays in seconds
-        self.__departure = self.__arrival + (numdays * 24 * 60 * 60)
+        self.departure = self.arrival + (numdays * 24 * 60 * 60)
 
-    def __signature_string(self):
+    def signatureString(self):
         """Composes the string to be used for generating the key for the room"""
-        return "{alg:" + self.__alg + ",typ:" + self.__type + ",localizer:" + \
-            self.__localizer + ",arrival:" + self.__arrival + \
-            ",departure:" + self.__departure + "}"
+        return "{alg:" + self.alg + ",typ:" + self.type + ",localizer:" + \
+            self.localizer + ",arrival:" + self.arrival + \
+            ",departure:" + self.departure + "}"
 
     @property
     def idCard(self):
         """Property that represents the product_id of the patient"""
-        return self.__idcard
+        return self.idCard
 
     @idCard.setter
     def icCard(self, value):
-        self.__idcard = value
+        self.idCard = value
 
     @property
     def localizer(self):
         """Property that represents the order_id"""
-        return self.__localizer
+        return self.localizer
 
     @localizer.setter
     def localizer(self, value):
-        self.__localizer = value
+        self.localizer = value
 
     @property
     def arrival(self):
         """Property that represents the phone number of the client"""
-        return self.__arrival
+        return self.arrival
 
     @property
-    def room_key(self):
+    def roomKey(self):
         """Returns the sha256 signature of the date"""
-        return hashlib.sha256(self.__signature_string().encode()).hexdigest()
+        return hashlib.sha256(self.signatureString().encode()).hexdigest()
 
     @property
     def departure(self):
         """Returns the issued at value"""
-        return self.__departure
+        return self.departure
 
     @departure.setter
     def departure(self, value):
-        self.__departure = value
+        self.departure = value
