@@ -1,3 +1,0 @@
-from uC3MTravel.hotelReservation import hotelReservation
-from uC3MTravel.hotelManager import hotelManager
-from uC3MTravel.hotelManagementException import hotelManagementException

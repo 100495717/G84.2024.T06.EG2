@@ -1,13 +1,13 @@
-class hotelManagementException(Exception):
+class HotelManagementException(Exception):
     def __init__(self, message):
-        self.message = message
+        self.__message = message
         super().__init__(self.message)
 
     @property
     def message(self):
-        return self.message
+        return self.__message
 
     @message.setter
     def message(self,value):
-        self.message = value
+        self.__message = value
 
