@@ -1,5 +1,5 @@
 import unittest
-from UC3MTravel import HotelManager
+from UC3MTravel.HotelManager import HotelManager
 class TestHotel(unittest.TestCase):
     def test_room_reservation(self):
         my_reservation = HotelManager()
