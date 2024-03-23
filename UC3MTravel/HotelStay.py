@@ -1,6 +1,8 @@
 ''' Class HotelStay (GE2.2) '''
 from datetime import datetime
 import hashlib
+from HotelManagementException import HotelManagementException
+import json
 
 class HotelStay():
     def __init__(self, idcard, localizer, numdays, roomtype  ):
@@ -56,3 +58,51 @@ class HotelStay():
     @departure.setter
     def departure(self, value):
         self.__departure = value
+
+
+    def guest_arrival(input_file):
+        try:
+            with open(input_file,"r") as f:
+                data = json.load(f)
+            localizador = data.get("Localizer")
+            idcard = data.get("IdCard")
+
+            if not localizador or not idcard:
+                raise HotelManagementException("Faltan datos en el JSON")
+        except json.JSONDecodeError as e:
+            raise HotelManagementException("No tiene formato JSON")
+        except KeyError as e:
+            raise HotelManagementException("El JSON no tiene la estructura correcta")
+
+            if not isinstance(localizador,str) or not isinstance(idcard,str):
+                raise ValueError
+        except ValueError:
+            raise HotelManagementException("Los datos del JSON no son válidos")
+        if localizador != self.__localizer:
+            raise HotelManagementException("El localizador no se corresponde con el del archivo")
+        try:
+            arrival = datetime.strptime(data.get("Arrival"),"%DD-%MM-%AAAA")
+        except ValueError:
+            raise HotelManagementException("La fecha de llegada no tiene el formato válido")
+        if arrival != self.__arrival:
+            raise HotelManagementException("La fecha de llegada no se corresponde con la del archivo")
+
+        clave = self.room_key()
+        with open("estancias.json","a") as f:
+            data = {"localizador": self.__localizer,
+                    "idcard": self.__idcard,
+                    "arrival": self.__arrival.isoformat(),
+                    "departure": self.__departure.isoformat(),
+                    "room_key": clave
+                    }
+            json.dump(data,f)
+        return clave
+
+    def room_key(self):
+        try:
+            return hashlib.sha256(self.__signature_string().encode()).hexdigest()
+        except Exception as e:
+            raise HotelManagementException("Error de procesamiento interno")
+
+
+
