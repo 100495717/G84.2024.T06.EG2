@@ -46,14 +46,16 @@ class HotelReservation:
         """Returns the md5 signature"""
         return hashlib.md5(self.__str__().encode()).hexdigest()
 
-    def solicitar_reserva_hotel(credit_card_number, id_card, name_surname,
+    def solicitar_reserva_hotel(self, credit_card_number, id_card,name_surname,
                                 phone_number, room_type, arrival, num_days):
         """
         Solicita una reserva de hotel y devuelve un localizador.
         """
-
+        #tengo q poner el json y hacer como que los argumentos que recibe
+        # juntarlos en una sola variable para poder hacer
+        # datos._validar_datos_reserva
         # Validar datos de entrada
-        _validar_datos_reserva(credit_card_number, id_card, name_surname,
+        self._validar_datos_reserva(credit_card_number, id_card,name_surname,
                                phone_number, room_type, arrival, num_days)
 
         # Crear objeto HotelReservation
@@ -64,30 +66,30 @@ class HotelReservation:
         localizador = reserva.LOCALIZER
 
         # Almacenar datos de la reserva en un fichero
-        _almacenar_reserva(reserva)
+        self._almacenar_reserva(reserva)
 
         return localizador
 
-    def _validar_datos_reserva(credit_card_number, id_card, name_surname,
+    def _validar_datos_reserva(self, credit_card_number, id_card, name_surname,
                                phone_number, room_type, arrival, num_days):
         """
         Valida los datos de una reserva.
         """
 
         # Validar tarjeta de crédito
-        if not _validar_tarjeta_credito(credit_card_number):
+        if not self._validar_tarjeta_credito(credit_card_number):
             raise ValueError("Número de tarjeta de crédito no válido")
 
         # Validar DNI
-        if not _validar_dni(id_card):
+        if not self._validar_dni(id_card):
             raise ValueError("DNI no válido")
 
         # Validar nombre y apellidos
-        if not _validar_nombre_completo(name_surname):
+        if not self._validar_nombre_completo(name_surname):
             raise ValueError("Nombre y apellidos no válidos")
 
         # Validar número de teléfono
-        if not _validar_telefono(phone_number):
+        if not self._validar_telefono(phone_number):
             raise ValueError("Número de teléfono no válido")
 
         # Validar tipo de habitación
@@ -104,27 +106,21 @@ class HotelReservation:
         if not 1 <= num_days <= 10:
             raise ValueError("Número de días no válido")
 
-    def _validar_tarjeta_credito(numero):
+    def _validar_tarjeta_credito(self, numero):
         """
         Valida un número de tarjeta de crédito.
-
-        Args:
-            numero (str): Número de tarjeta de crédito.
-
-        Returns:
-            bool: True si el número es válido, False en caso contrario.
         """
         if not isinstance(numero, int) or len(numero) != 16:
             return False
 
         else:
-            luhn = _luhn(numero)
+            luhn = self.luhn(numero)
             if luhn == 0:
                 return True
             else:
                 return False
 
-    def _luhn(numero):
+    def luhn(numero):
         suma = 0
         digitos = str(numero)
         digitos_invertidos = digitos[::-1]
@@ -144,54 +140,58 @@ class HotelReservation:
     def _validar_dni(dni):
         """
         Valida un DNI español.
-
-        Args:
-            dni (str): DNI a validar.
-
-        Returns:
-            bool: True si el DNI es válido, False en caso contrario.
         """
+        if len(dni) != 9:
+            return False
+        else:
+            digitos = dni[:-1]
+            letra = dni[-1].upper()
+            for digito in digitos:
+                if digito not in ("0", "1", "2", "3", "4", "5", "6", "7",
+                                  "8", "9"):
+                    return False
+            if letra not in ("A", "B", "C", "D", "E", "F", "G", "H", "I",
+                             "J", "K", "L", "M", "N", "O", "P", "Q",
+                             "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ):
+                return False
 
-        # TODO: Implementar la validación del DNI
+            return True
 
-        ...
+
+
+
 
     def _validar_nombre_completo(nombre):
         """
         Valida un nombre completo.
-
-        Args:
-            nombre (str): Nombre completo a validar.
-
-        Returns:
-            bool: True si el nombre es válido, False en caso contrario.
         """
+        if len(nombre) < 10 or len(nombre) > 50:
+            return False
+        else:
+            nombre_espacios = nombre.count(" ")
+            if nombre_espacios < 1 :
+                return False
+            else:
+                return True
 
-        # TODO: Implementar la validación del nombre completo
-
-        ...
 
     def _validar_telefono(telefono):
         """
         Valida un número de teléfono.
-
-        Args:
-            telefono (str): Número de teléfono a validar.
-
-        Returns:
-            bool: True si el teléfono es válido, False en caso contrario.
         """
+        if len(telefono) != 9:
+            return False
+        else:
+            for digito in telefono:
+                if digito not in ("0", "1", "2", "3", "4", "5", "6", "7",
+                                  "8", "9"):
+                    return False
+            return True
 
-        # TODO: Implementar la validación del número de teléfono
-
-        ...
 
     def _almacenar_reserva(reserva):
         """
         Almacena los datos de una reserva en un fichero.
-
-        Args:
-            reserva (HotelReservation): Objeto con los datos de la reserva.
         """
 
         # TODO: Implementar el almacenamiento de la reserva
