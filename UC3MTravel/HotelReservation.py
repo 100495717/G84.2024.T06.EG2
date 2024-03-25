@@ -2,6 +2,7 @@
 import hashlib
 import json
 from datetime import datetime
+from HotelManagementException import HotelManagementException
 
 class HotelReservation:
     def __init__(self, IDCARD, creditcardNumb, nAMeAndSURNAME, phonenumber, room_type,numdays):
@@ -48,77 +49,58 @@ class HotelReservation:
 
     def solicitar_reserva_hotel(self, credit_card_number, id_card,name_surname,
                                 phone_number, room_type, arrival, num_days):
-        """
-        Solicita una reserva de hotel y devuelve un localizador.
-        """
-        #tengo q poner el json y hacer como que los argumentos que recibe
-        # juntarlos en una sola variable para poder hacer
-        # datos._validar_datos_reserva
-        # Validar datos de entrada
-        self._validar_datos_reserva(credit_card_number, id_card,name_surname,
-                               phone_number, room_type, arrival, num_days)
 
-        # Crear objeto HotelReservation
-        reserva = HotelReservation(id_card, credit_card_number, name_surname,
-                                   phone_number, room_type, num_days)
+        if not credit_card_number or id_card or name_surname or \
+                phone_number or room_type or arrival or num_days:
+            raise HotelManagementException("Faltan datos para la reserva")
 
-        # Calcular localizador
-        localizador = reserva.LOCALIZER
+        luhn = HotelReservation.luhn(credit_card_number)
+        if not(len(credit_card_number) == 16 or
+                credit_card_number.isdigit() or luhn):
+            raise HotelManagementException(
+                "Número de tarjeta de crédito no válido")
 
-        # Almacenar datos de la reserva en un fichero
-        self._almacenar_reserva(reserva)
+        if not (len(id_card) == 9 and id_card.isdigit()):
+            raise HotelManagementException("DNI no válido")
 
-        return localizador
+        if not (10 <= len(name_surname) <= 50 and len(
+                name_surname.split()) >= 2):
+            raise HotelManagementException("Nombre y apellidos no válidos")
 
-    def _validar_datos_reserva(self, credit_card_number, id_card, name_surname,
-                               phone_number, room_type, arrival, num_days):
-        """
-        Valida los datos de una reserva.
-        """
+        if not (len(phone_number) == 9 and phone_number.isdigit()):
+            raise HotelManagementException("Número de teléfono no válido")
 
-        # Validar tarjeta de crédito
-        if not self._validar_tarjeta_credito(credit_card_number):
-            raise ValueError("Número de tarjeta de crédito no válido")
+        if room_type not in ['single', 'double', 'suite']:
+            raise HotelManagementException("Tipo de habitación no válido")
 
-        # Validar DNI
-        if not self._validar_dni(id_card):
-            raise ValueError("DNI no válido")
-
-        # Validar nombre y apellidos
-        if not self._validar_nombre_completo(name_surname):
-            raise ValueError("Nombre y apellidos no válidos")
-
-        # Validar número de teléfono
-        if not self._validar_telefono(phone_number):
-            raise ValueError("Número de teléfono no válido")
-
-        # Validar tipo de habitación
-        if room_type not in ("single", "double", "suite"):
-            raise ValueError("Tipo de habitación no válido")
-
-        # Validar fecha de llegada
         try:
-            datetime.strptime(arrival, "%d/%m/%Y")
+            arrival_date = datetime.strptime(arrival, "%d/%m/%Y")
         except ValueError:
-            raise ValueError("Fecha de llegada no válida")
+            raise HotelManagementException("Fecha de entrada no válida")
 
-        # Validar número de días
-        if not 1 <= num_days <= 10:
-            raise ValueError("Número de días no válido")
+        if not (1 <= num_days <= 10):
+            raise HotelManagementException("Número de días no válido")
 
-    def _validar_tarjeta_credito(self, numero):
-        """
-        Valida un número de tarjeta de crédito.
-        """
-        if not isinstance(numero, int) or len(numero) != 16:
-            return False
+            # Generar una firma MD5 como identificador de reserva
 
-        else:
-            luhn = self.luhn(numero)
-            if luhn == 0:
-                return True
-            else:
-                return False
+        localizer = hashlib.md5(self.__str__().encode()).hexdigest()
+
+        reservation_data = {
+            "credit_card_number": credit_card_number,
+            "id_card": id_card,
+            "name_surname": name_surname,
+            "phone_number": phone_number,
+            "room_type": room_type,
+            "arrival": arrival_date,
+            "num_days": num_days,
+            "localizer": localizer
+        }
+        # Almacenar los datos de la reserva en un archivo JSON
+        with open("reservations.json", "a") as f:
+            json.dump(reservation_data, f)
+            f.write('\n')
+
+        return localizer
 
     def luhn(numero):
         suma = 0
@@ -135,78 +117,9 @@ class HotelReservation:
                     suma += int(list_dig_doble[1])
                 else:
                     suma += digito_doble
-        return suma % 10
-
-    def _validar_dni(dni):
-        """
-        Valida un DNI español.
-        """
-        if len(dni) != 9:
-            return False
-        else:
-            digitos = dni[:-1]
-            letra = dni[-1].upper()
-            for digito in digitos:
-                if digito not in ("0", "1", "2", "3", "4", "5", "6", "7",
-                                  "8", "9"):
-                    return False
-            if letra not in ("A", "B", "C", "D", "E", "F", "G", "H", "I",
-                             "J", "K", "L", "M", "N", "O", "P", "Q",
-                             "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ):
-                return False
-
-            return True
+        return suma % 10 == 0
 
 
 
 
-
-    def _validar_nombre_completo(nombre):
-        """
-        Valida un nombre completo.
-        """
-        if len(nombre) < 10 or len(nombre) > 50:
-            return False
-        else:
-            nombre_espacios = nombre.count(" ")
-            if nombre_espacios < 1 :
-                return False
-            else:
-                return True
-
-
-    def _validar_telefono(telefono):
-        """
-        Valida un número de teléfono.
-        """
-        if len(telefono) != 9:
-            return False
-        else:
-            for digito in telefono:
-                if digito not in ("0", "1", "2", "3", "4", "5", "6", "7",
-                                  "8", "9"):
-                    return False
-            return True
-
-
-    def _almacenar_reserva(reserva):
-        """
-        Almacena los datos de una reserva en un fichero.
-        """
-
-        # TODO: Implementar el almacenamiento de la reserva
-
-        # Ejemplo: Almacenamiento en CSV
-
-        with open("reservas.csv", "a") as fichero:
-            escritor = csv.writer(fichero)
-            escritor.writerow([
-                reserva.IDCARD,
-                reserva.CREDITCARD,
-                reserva.NAME_SURNAME,
-                reserva.phonenumber,
-                reserva.roomtype,
-                reserva.ARRIVAL,
-                reserva.num_days,
-            ])
 
