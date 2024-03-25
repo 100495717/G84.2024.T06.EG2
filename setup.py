@@ -36,10 +36,10 @@ from sys import version_info
 py3 = version_info[0] == 3
 py2 = not py3
 if py2:
-    FileNotFoundError = OSError
+    filenotfoundError = OSError
 
 
-def install_pyb():
+def installPyb():
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "pybuilder"])
     except subprocess.CalledProcessError as e:
@@ -47,18 +47,18 @@ def install_pyb():
 
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-exit_code = 0
+exitCode = 0
 
 try:
     subprocess.check_call(["pyb", "--version"])
-except FileNotFoundError as e:
+except filenotfoundError as e:
     if py3 or py2 and e.errno == 2:
-        install_pyb()
+        installPyb()
     else:
         raise
 except subprocess.CalledProcessError as e:
     if e.returncode == 127:
-        install_pyb()
+        installPyb()
     else:
         sys.exit(e.returncode)
 
@@ -86,4 +86,4 @@ try:
     subprocess.check_call([sys.executable, "setup.py"] + setup_args, cwd=script_dir)
 except subprocess.CalledProcessError as e:
     exit_code = e.returncode
-sys.exit(exit_code)
+sys.exit(exitCode)

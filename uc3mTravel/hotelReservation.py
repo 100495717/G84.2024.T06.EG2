@@ -2,12 +2,13 @@
 import hashlib
 import json
 from datetime import datetime
-from HotelManagementException import HotelManagementException
+from hotelmanagementException import hotelmanagementException
 
-class HotelReservation:
-    def __init__(self, IDCARD, creditcardNumb, nAMeAndSURNAME, phonenumber, room_type,numdays):
+class hotelReservation:
+    def __init__(self, idCard, creditcardNumb, nAMeAndSURNAME, phonenumber,
+                 room_type,numdays):
         self.__crEDITcardnumber = creditcardNumb
-        self.__idcard = IDCARD
+        self.__idcard = idCard
         justnow = datetime.utcnow()
         self.__ARRIVAL = datetime.timestamp(justnow)
         self.__NAME_SURNAME = nAMeAndSURNAME
@@ -52,34 +53,34 @@ class HotelReservation:
 
         if not credit_card_number or id_card or name_surname or \
                 phone_number or room_type or arrival or num_days:
-            raise HotelManagementException("Faltan datos para la reserva")
+            raise hotelmanagementException("Faltan datos para la reserva")
 
-        luhn = HotelReservation.luhn(credit_card_number)
+        luhn = hotelReservation.luhn(credit_card_number)
         if not(len(credit_card_number) == 16 or
                 credit_card_number.isdigit() or luhn):
-            raise HotelManagementException(
+            raise hotelmanagementException(
                 "Número de tarjeta de crédito no válido")
 
         if not (len(id_card) == 9 and id_card.isdigit()):
-            raise HotelManagementException("DNI no válido")
+            raise hotelmanagementException("DNI no válido")
 
         if not (10 <= len(name_surname) <= 50 and len(
                 name_surname.split()) >= 2):
-            raise HotelManagementException("Nombre y apellidos no válidos")
+            raise hotelmanagementException("Nombre y apellidos no válidos")
 
         if not (len(phone_number) == 9 and phone_number.isdigit()):
-            raise HotelManagementException("Número de teléfono no válido")
+            raise hotelmanagementException("Número de teléfono no válido")
 
         if room_type not in ['single', 'double', 'suite']:
-            raise HotelManagementException("Tipo de habitación no válido")
+            raise hotelmanagementException("Tipo de habitación no válido")
 
         try:
             arrival_date = datetime.strptime(arrival, "%d/%m/%Y")
         except ValueError:
-            raise HotelManagementException("Fecha de entrada no válida")
+            raise hotelmanagementException("Fecha de entrada no válida")
 
         if not (1 <= num_days <= 10):
-            raise HotelManagementException("Número de días no válido")
+            raise hotelmanagementException("Número de días no válido")
 
             # Generar una firma MD5 como identificador de reserva
 
