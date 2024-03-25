@@ -29,7 +29,7 @@ class HotelStay():
         return self.__idcard
 
     @idCard.setter
-    def icCard(self, value):
+    def idCard(self, value):
         self.__idcard = value
 
     @property
@@ -99,40 +99,42 @@ class HotelStay():
 
 
 
-
-
-    def guest_checkout(self, room_key):
+    def guest_checkout(room_key):
         if not room_key:
-            raise HotelManagementException("Introduce un código")
+            raise HotelManagementException("Introduce una room_key")
+        try:
+            with open("estancias.json", "r") as f:
+                estancias = json.load(f)
+        except FileNotFoundError:
+            raise HotelManagementException("No se encuentra el archivo de datos")
+        except json.JSONDecodeError:
+            raise HotelManagementException("El archivo no tiene formato JSON")
+        except Exception as e:
+            raise HotelManagementException("Error desconocido al procesar el archivo de datos")
+
+        if room_key not in estancias:
+            raise HotelManagementException("El código de habitación no está registrado")
+
+        estancia_actual = estancias[room_key]
+        departure = estancia_actual["departure"]
 
         try:
-            with open("claves_registradas.json", "r") as f: #ABRIR FICHERO DE
-                # REGISTROS
-                data = json.load(f)
-                lista_reg = data.get("lista")
-                if room_key not in lista_reg:
-                    raise HotelManagementException("No se ha registrado el "
-                                                    "código")
+            # Verificar la fecha de salida
+            ahora = datetime.utcnow().timestamp()
+            if ahora != departure:
+                raise HotelManagementException("La fecha de salida no es válida")
+            # Registrar la salida en el archivo
+            with open("checkout.json", "a") as f:
+                checkout_data = {
+                    "checkout_time": ahora,
+                    "room_key": room_key
+                }
+                json.dump(checkout_data, f)
+                f.write('\n')
+            return True
         except Exception as e:
             raise HotelManagementException("Error de procesamiento interno")
 
-        hexadecimal = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                       "A", "B", "C", "D", "E", "F")
-        for char in room_key:
-            if char not in hexadecimal:
-                raise HotelManagementException("El fromato no es válido")
 
-        if datetime.now() != self.__departure:
-            raise HotelManagementException("Fecha de salida no válida")
 
-        try:
-            with open("checkout.json", "a") as f:
-                data = {"hora checkout": self.__departure.isoformat(),
-                        "room_key": self.__room_key
-                        }
-                json.dump(data, f)
-        except Exception as e:
-            raise HotelManagementException("Error al procesar la salida")
-
-        return True
 
