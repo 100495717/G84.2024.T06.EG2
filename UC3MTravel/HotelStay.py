@@ -5,7 +5,7 @@ from HotelManagementException import HotelManagementException
 import json
 
 class HotelStay():
-    def __init__(self, idcard, localizer, numdays, roomtype  ):
+    def __init__(self, idcard, localizer, numdays, roomtype):
         self.__alg = "SHA-256"
         self.__type = roomtype
         self.__idcard = idcard
@@ -65,51 +65,40 @@ class HotelStay():
         try:
             with open(input_file,"r") as f:
                 data = json.load(f)
-            localizador = data.get("Localizer")
-            idcard = data.get("IdCard")
+        except FileNotFoundError:
+            raise HotelManagementException("No se encuentra el archivo")
 
-            if not localizador or not idcard:
-                raise HotelManagementException("Faltan datos en el JSON")
-        except json.JSONDecodeError as e:
-            raise HotelManagementException("No tiene formato JSON")
-        except KeyError as e:
+        except json.JSONDecodeError:
+            raise HotelManagementException("El archivo no tiene formato JSON")
+        except Exception as e:
+            raise HotelManagementException("Error desconocido")
+
+        localizer = data.get("localizer")
+        id_card = data.get("id_card")
+
+        if not localizer or not id_card:
             raise HotelManagementException("El JSON no tiene la estructura correcta")
 
-            if not isinstance(localizador,str) or not isinstance(idcard,str):
-                raise ValueError
-        except ValueError:
-            raise HotelManagementException("Los datos del JSON no son válidos")
+        with open("reservas.json","r") as f:
+            reservas = json.load(f)
+        if localizer not in reservas:
+            raise HotelManagementException("No hay localizador")
 
-        if localizador != self.__localizer:
-            raise HotelManagementException("El localizador no se corresponde con el del archivo")
-        try:
-            arrival = datetime.strptime(data.get("Arrival"),"%DD-%MM-%AAAA")
-        except ValueError:
-            raise HotelManagementException("La fecha de llegada no tiene el formato válido")
-        if arrival != self.__arrival:
-            raise HotelManagementException("La fecha de llegada no se corresponde con la del archivo")
+        num_days = data.get("num_days")
+        tipo_hab = data.get("room_type")
 
-        clave = self.room_key()
-        lista = []
-        lista.append(clave)
-        with open("claves_registradas.json", "a") as f:
-            data = {"lista": lista}
-            json.dump(data, f)
-        with open("estancias.json","a") as f:
-            data = {"localizador": self.__localizer,
-                    "idcard": self.__idcard,
-                    "arrival": self.__arrival.isoformat(),
-                    "departure": self.__departure.isoformat(),
-                    "room_key": clave
-                    }
-            json.dump(data,f)
-        return clave
+        instancia = HotelStay(id_card,localizer,num_days,tipo_hab)
+        room_key = instancia.room_key
 
-    def room_key(self):
-        try:
-            return hashlib.sha256(self.__signature_string().encode()).hexdigest()
-        except Exception as e:
-            raise HotelManagementException("Error de procesamiento interno")
+        with open("estancias.json","w") as f:
+            json.dump(instancia.__dict__,f)
+            f.write('\n')
+
+        return room_key
+
+
+
+
 
 
     def guest_checkout(self, room_key):

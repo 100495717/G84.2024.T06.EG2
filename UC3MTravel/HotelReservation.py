@@ -96,7 +96,7 @@ class HotelReservation:
             "localizer": localizer
         }
         # Almacenar los datos de la reserva en un archivo JSON
-        with open("reservations.json", "a") as f:
+        with open("reservas.json", "w") as f:
             json.dump(reservation_data, f)
             f.write('\n')
 
