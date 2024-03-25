@@ -124,11 +124,13 @@ class HotelStay():
                 if room_key not in lista_reg:
                     raise HotelManagementException("No se ha registrado el "
                                                     "código")
+        except Exception as e:
+            raise HotelManagementException("Error de procesamiento interno")
 
         hexadecimal = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                        "A", "B", "C", "D", "E", "F")
         for char in room_key:
-            if char is not in hexadecimal:
+            if char not in hexadecimal:
                 raise HotelManagementException("El fromato no es válido")
 
         if datetime.now() != self.__departure:
