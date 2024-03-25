@@ -15,6 +15,7 @@ class HotelStay():
         #timestamp is represented in seconds.miliseconds
         #to add the number of days we must express numdays in seconds
         self.__departure = self.__arrival + (numdays * 24 * 60 * 60)
+        self.__room_key = self.room_key
 
     def __signature_string(self):
         """Composes the string to be used for generating the key for the room"""
@@ -78,6 +79,7 @@ class HotelStay():
                 raise ValueError
         except ValueError:
             raise HotelManagementException("Los datos del JSON no son válidos")
+
         if localizador != self.__localizer:
             raise HotelManagementException("El localizador no se corresponde con el del archivo")
         try:
@@ -88,6 +90,11 @@ class HotelStay():
             raise HotelManagementException("La fecha de llegada no se corresponde con la del archivo")
 
         clave = self.room_key()
+        lista = []
+        lista.append(clave)
+        with open("claves_registradas.json", "a") as f:
+            data = {"lista": lista}
+            json.dump(data, f)
         with open("estancias.json","a") as f:
             data = {"localizador": self.__localizer,
                     "idcard": self.__idcard,
@@ -105,4 +112,36 @@ class HotelStay():
             raise HotelManagementException("Error de procesamiento interno")
 
 
+    def guest_checkout(self, room_key):
+        if not room_key:
+            raise HotelManagementException("Introduce un código")
+
+        try:
+            with open("claves_registradas.json", "r") as f: #ABRIR FICHERO DE
+                # REGISTROS
+                data = json.load(f)
+                lista_reg = data.get("lista")
+                if room_key not in lista_reg:
+                    raise HotelManagementException("No se ha registrado el "
+                                                    "código")
+
+        hexadecimal = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                       "A", "B", "C", "D", "E", "F")
+        for char in room_key:
+            if char is not in hexadecimal:
+                raise HotelManagementException("El fromato no es válido")
+
+        if datetime.now() != self.__departure:
+            raise HotelManagementException("Fecha de salida no válida")
+
+        try:
+            with open("checkout.json", "a") as f:
+                data = {"hora checkout": self.__departure.isoformat(),
+                        "room_key": self.__room_key
+                        }
+                json.dump(data, f)
+        except Exception as e:
+            raise HotelManagementException("Error al procesar la salida")
+
+        return True
 
