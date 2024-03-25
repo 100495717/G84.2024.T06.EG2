@@ -18,7 +18,7 @@ class hotelStay():
         self.__departure = self.__arrival + (numdays * 24 * 60 * 60)
         self.__room_key = self.room_key
 
-    def __signature_string(self):
+    def signatureString(self):
         """Composes the string to be used for generating the key for the room"""
         return "{alg:" + self.__alg + ",typ:" + self.__type + ",localizer:" + \
             self.__localizer + ",arrival:" + self.__arrival + \
@@ -50,7 +50,7 @@ class hotelStay():
     @property
     def room_key(self):
         """Returns the sha256 signature of the date"""
-        return hashlib.sha256(self.__signature_string().encode()).hexdigest()
+        return hashlib.sha256(self.signatureString().encode()).hexdigest()
 
     @property
     def departure(self):

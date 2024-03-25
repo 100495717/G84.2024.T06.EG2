@@ -6,12 +6,12 @@ class hotelManager:
     def __init__(self):
         pass
 
-    def validatecreditcard( self, x ):
+    def validatecreditcard(self, x):
         # PLEASE INCLUDE HERE THE CODE FOR VALIDATING THE GUID
         # RETURN TRUE IF THE GUID IS RIGHT, OR FALSE IN OTHER CASE
         return True
 
-    def readdatafromJSOn( self, fi):
+    def readdatafromJSOn(self, fi):
 
         try:
             with open(fi) as f:

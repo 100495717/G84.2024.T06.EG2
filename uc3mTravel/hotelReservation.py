@@ -5,13 +5,13 @@ from datetime import datetime
 from hotelmanagementException import hotelmanagementException
 
 class hotelReservation:
-    def __init__(self, idCard, creditcardNumb, nAMeAndSURNAME, phonenumber,
+    def __init__(self, idcard, creditcardnumb, nameandsurname, phonenumber,
                  room_type,numdays):
-        self.__crEDITcardnumber = creditcardNumb
-        self.__idcard = idCard
+        self.__crEDITcardnumber = creditcardnumb
+        self.__idcard = idcard
         justnow = datetime.utcnow()
         self.__ARRIVAL = datetime.timestamp(justnow)
-        self.__NAME_SURNAME = nAMeAndSURNAME
+        self.__NAME_SURNAME = nameandsurname
         self.__phonenumber = phonenumber
         self.__roomtype = room_type
         self.__num_days = numdays
@@ -86,7 +86,7 @@ class hotelReservation:
 
         localizer = hashlib.md5(self.__str__().encode()).hexdigest()
 
-        reservation_data = {
+        reservationData = {
             "credit_card_number": credit_card_number,
             "id_card": id_card,
             "name_surname": name_surname,
@@ -98,26 +98,26 @@ class hotelReservation:
         }
         # Almacenar los datos de la reserva en un archivo JSON
         with open("reservas.json", "w") as f:
-            json.dump(reservation_data, f)
+            json.dump(reservationData, f)
             f.write('\n')
 
         return localizer
 
-    def luhn(numero):
+    def luhn(self,numero):
         suma = 0
         digitos = str(numero)
-        digitos_invertidos = digitos[::-1]
-        for i, digito in enumerate(digitos_invertidos):
+        digitosInvertidos = digitos[::-1]
+        for i, digito in enumerate(digitosInvertidos):
             if i % 2 == 0:
                 suma += int(digito)
             else:
-                digito_doble = int(digito) * 2
-                list_dig_doble = str(digito_doble)
-                if len(list_dig_doble) > 1:
-                    suma += int(list_dig_doble[0])
-                    suma += int(list_dig_doble[1])
+                digitoDoble = int(digito) * 2
+                listdigDoble = str(digitoDoble)
+                if len(listdigDoble) > 1:
+                    suma += int(listdigDoble[0])
+                    suma += int(listdigDoble[1])
                 else:
-                    suma += digito_doble
+                    suma += digitoDoble
         return suma % 10 == 0
 
 
