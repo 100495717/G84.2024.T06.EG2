@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 from uc3mTravel.hotelReservation import hotelReservation
+from uc3mTravel.hotelStay import hotelStay
 
 
 class hotelManager:
@@ -78,11 +79,11 @@ class hotelManager:
 
         try:
             arrivalDate = datetime.strptime(arrival, "%d/%m/%Y")
-            dia = arrivalDate.timetuple().tm_yday
+            dia = arrivalDate.day
             mes = arrivalDate.month
             if not 1<= dia <= 31:
                 raise hotelmanagementException("El dia introducido no es válido")
-            if 1 <= mes <=12:
+            if not (1 <= mes <=12):
                 raise hotelmanagementException("Mes no válido")
             if mes not in ("01", "03", "05", "07", "08", "10", "12"):
                 if not 1<= dia <=30:
@@ -117,3 +118,83 @@ class hotelManager:
 
         return localizer
 
+    def guestArrival(self,input_file):
+        try:
+            with open(input_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except FileNotFoundError as exc:
+            raise hotelmanagementException("No se encuentra el archivo") \
+                from exc
+
+        except json.JSONDecodeError as exc:
+            raise hotelmanagementException("El archivo no tiene formato "
+                                           "JSON") from exc
+        except Exception as exc:
+            raise hotelmanagementException("Error desconocido") from exc
+        Localizer = data.get("Localizer")
+        IdCard = data.get("IdCard")
+
+        if not Localizer or not IdCard:
+            raise hotelmanagementException("El JSON no tiene la estructura correcta")
+
+        with open("reservas.json", "r", encoding="utf-8") as f:
+            reservas = json.load(f)
+        localizador = reservas.get("localizer")
+        numDays = reservas.get("num_days")
+        tipohab = reservas.get("room_type")
+        if Localizer != localizador:
+            raise hotelmanagementException("El localizador no coincide con los datos almacenados")
+        instancia = hotelStay(IdCard, Localizer, numDays, tipohab)
+        roomKey = instancia.room_key
+        instancia = instancia.__dict__
+        with open("estancias.json", "w", encoding="utf-8") as f:
+            json.dump(instancia, f)
+            f.write('\n')
+
+        return roomKey
+
+
+    def guestCheckout(self, room_key):
+        if not room_key:
+            raise hotelmanagementException("Introduce una room_key")
+        try:
+            with open("estancias.json", "r", encoding="utf-8") as f:
+                estancias = json.load(f)
+        except FileNotFoundError as exc:
+            raise hotelmanagementException("No se encuentra el archivo de "
+                                           "datos") from exc
+        except json.JSONDecodeError as exc:
+            raise hotelmanagementException("El archivo no tiene formato "
+                                           "JSON") from exc
+        except Exception as exc:
+            raise hotelmanagementException("Error desconocido al procesar el archivo de datos") from exc
+
+        if room_key not in estancias:
+            raise hotelmanagementException("El código de habitación no está registrado")
+
+        estanciaActual = estancias[room_key]
+        departure = estanciaActual["departure"]
+
+        try:
+            # Verificar la fecha de salida
+            ahora = datetime.utcnow().timestamp()
+            if ahora != departure:
+                raise hotelmanagementException("La fecha de salida no es válida")
+            # Registrar la salida en el archivo
+            with open("checkout.json", "a", encoding ="utf-8") as f:
+                checkoutData = {
+                    "checkout_time": ahora,
+                    "room_key": room_key
+                }
+                json.dump(checkoutData, f)
+                f.write('\n')
+            return True
+        except Exception as exc:
+            raise hotelmanagementException("Error de procesamiento interno")\
+                from exc
+
+
+if __name__ == "__main__":
+    valor = hotelManager()
+    valorcin = valor.guestArrival("valid_test.json")
+    print(valorcin)
