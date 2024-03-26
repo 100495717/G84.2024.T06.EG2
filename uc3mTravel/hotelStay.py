@@ -2,12 +2,12 @@
 import json
 from datetime import datetime
 import hashlib
-from hotelmanagementException import hotelmanagementException
+from uc3mTravel.hotelmanagementException import hotelmanagementException
 
 
 class hotelStay():
     def __init__(self, idcard, localizer, numdays, roomtype):
-        self.__alg = "SHA-256"
+        self.__alg = "SHA-256" # pylint: disable=attribute-defined-outside-init
         self.__type = roomtype
         self.__idcard = idcard
         self.__localizer = localizer
@@ -47,6 +47,10 @@ class hotelStay():
         """Property that represents the phone number of the client"""
         return self.__arrival
 
+    @arrival.setter
+    def arrival(self, value):
+        self.__arrival = value
+
     @property
     def room_key(self):
         """Returns the sha256 signature of the date"""
@@ -61,25 +65,44 @@ class hotelStay():
     def departure(self, value):
         self.__departure = value
 
+    @property
+    def type(self):
+        """Returns the issued at value"""
+        return self.__type
 
-    def guestArrival(input_file):
+    @type.setter
+    def type(self, value):
+        self.__type = value
+
+    @property
+    def room_key(self):
+        """Returns the issued at value"""
+        return self.__room_key
+
+    @room_key.setter
+    def type(self, value):
+        self.__room_key = value
+
+    def guestArrival(self, input_file):
         try:
-            with open(input_file,"r") as f:
+            with open(input_file,"r", encoding= "utf-8") as f:
                 data = json.load(f)
-        except FileNotFoundError:
-            raise hotelmanagementException("No se encuentra el archivo")
+        except FileNotFoundError as exc:
+            raise hotelmanagementException("No se encuentra el archivo") \
+                from exc
 
-        except json.JSONDecodeError:
-            raise hotelmanagementException("El archivo no tiene formato JSON")
-        except Exception as e:
-            raise hotelmanagementException("Error desconocido")
+        except json.JSONDecodeError as exc:
+            raise hotelmanagementException("El archivo no tiene formato "
+                                           "JSON") from exc
+        except Exception as exc:
+            raise hotelmanagementException("Error desconocido") from exc
         localizer = data.get("localizer")
         idCard = data.get("idCard")
 
         if not localizer or not idCard:
             raise hotelmanagementException("El JSON no tiene la estructura correcta")
 
-        with open("reservas.json","r") as f:
+        with open("reservas.json","r", encoding= "utf-8") as f:
             reservas = json.load(f)
         if localizer not in reservas:
             raise hotelmanagementException("No hay localizador")
@@ -90,7 +113,7 @@ class hotelStay():
         instancia = hotelStay(idCard,localizer,numDays,tipohab)
         roomKey = instancia.room_key
 
-        with open("estancias.json","w") as f:
+        with open("estancias.json","w", encoding= "utf-8") as f:
             json.dump(instancia.__dict__,f)
             f.write('\n')
 
@@ -99,18 +122,20 @@ class hotelStay():
 
 
 
-    def guestCheckout(room_key):
+    def guestCheckout(self, room_key):
         if not room_key:
             raise hotelmanagementException("Introduce una room_key")
         try:
-            with open("estancias.json", "r") as f:
+            with open("estancias.json", "r", encoding= "utf-8") as f:
                 estancias = json.load(f)
-        except FileNotFoundError:
-            raise hotelmanagementException("No se encuentra el archivo de datos")
-        except json.JSONDecodeError:
-            raise hotelmanagementException("El archivo no tiene formato JSON")
-        except Exception as e:
-            raise hotelmanagementException("Error desconocido al procesar el archivo de datos")
+        except FileNotFoundError as exc:
+            raise hotelmanagementException("No se encuentra el archivo de "
+                                           "datos") from exc
+        except json.JSONDecodeError as exc:
+            raise hotelmanagementException("El archivo no tiene formato "
+                                           "JSON") from exc
+        except Exception as exc:
+            raise hotelmanagementException("Error desconocido al procesar el archivo de datos") from exc
 
         if room_key not in estancias:
             raise hotelmanagementException("El código de habitación no está registrado")
@@ -124,7 +149,7 @@ class hotelStay():
             if ahora != departure:
                 raise hotelmanagementException("La fecha de salida no es válida")
             # Registrar la salida en el archivo
-            with open("checkout.json", "a") as f:
+            with open("checkout.json", "a", encoding = "utf-8") as f:
                 checkoutData = {
                     "checkout_time": ahora,
                     "room_key": room_key
@@ -132,8 +157,9 @@ class hotelStay():
                 json.dump(checkoutData, f)
                 f.write('\n')
             return True
-        except Exception as e:
-            raise hotelmanagementException("Error de procesamiento interno")
+        except Exception as exc:
+            raise hotelmanagementException("Error de procesamiento interno")\
+                from exc
 
 
 

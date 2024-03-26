@@ -4,7 +4,7 @@ class testHotel(unittest.TestCase):
     def testroomReservation(self):
         myReservation = hotelManager()
         value = myReservation.roomReservation
-        self.assertEqual(value)
+        self.assertEqual(value, )
 
 
     if __name__ == "__main__":
