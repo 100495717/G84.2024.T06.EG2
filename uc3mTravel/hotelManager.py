@@ -133,9 +133,12 @@ class hotelManager:
             raise hotelmanagementException("Error desconocido") from exc
         Localizer = data.get("Localizer")
         IdCard = data.get("IdCard")
-
         if not Localizer or not IdCard:
             raise hotelmanagementException("El JSON no tiene la estructura correcta")
+        if len(Localizer) > 32:
+            raise hotelmanagementException("El localizador está duplicado")
+        if len(IdCard) > 9:
+            raise hotelmanagementException("El DNI está duplicado")
 
         with open("reservas.json", "r", encoding="utf-8") as f:
             reservas = json.load(f)
