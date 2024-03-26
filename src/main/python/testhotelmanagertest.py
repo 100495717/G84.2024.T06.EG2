@@ -70,6 +70,102 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "DNI no válido")
 
+    def test_roomReservation_novalid6(self):
+        # Nombre no válido (solo una cadena)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="LACUQUI",
+                id_card="63214578Z", phone_number="682589636",
+                room_type="SINGLE", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
+
+    def test_roomReservation_novalid7(self):
+        # Nombre no válido (está fuera del rango)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="DJ THEO",
+                id_card="63214578Z", phone_number="682589636",
+                room_type="SINGLE", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
+
+    def test_roomReservation_novalid8(self):
+        # Nombre no válido (FUERA DEL RANGO POR ENCIMA)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100",
+                name_surname="VICTORIA RAFAELA BALMASEDA DE UNZETA Y TELLEZ GIRÓN MARQUESA DE FRANCAVILLA Y SACROMONTE",
+                id_card="63214578Z", phone_number="682589636",
+                room_type="SINGLE", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
+
+    def test_roomReservation_novalid9(self):
+        # Número de teléfono no válido (no son números)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="AGUSTÍN GORDILLO",
+                id_card="63214578Z", phone_number="ajalfa",
+                room_type="SINGLE", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Número de teléfono no válido")
+
+    def test_roomReservation_novalid10(self):
+        # Número de teléfono no válido (no son 9 números)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="PERVIS ESTUPIÑÁN",
+                id_card="63214578Z", phone_number="68453",
+                room_type="SINGLE", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Número de teléfono no válido")
+
+    def test_roomReservation_novalid11(self):
+        # Tipo de habitación no válido
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="FRANCISCO PASTOR",
+                id_card="63214578Z", phone_number="696966855",
+                room_type="5485", arrival="2/5/2024", num_days="7")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Tipo de habitación no válido")
+
+    def test_roomReservation_novalid12(self):
+        # Número de días no válido (por encima del rango)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="SERGIO ARIAS",
+                id_card="63214578Z", phone_number="696966855",
+                room_type="DOUBLE", arrival="2/5/2024", num_days="50")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Número de días no válido")
+
+    def test_roomReservation_novalid13(self):
+        # Número de días no válido (por debajo del rango)
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5105105105105100", name_surname="JAVIER MAROTO",
+                id_card="63214578Z", phone_number="696966855",
+                room_type="DOUBLE", arrival="2/5/2024", num_days="0")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Número de días no válido")
     def main(self):
         unittest.main()
 
