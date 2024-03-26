@@ -63,7 +63,7 @@ class hotelManager:
                 credit_card_number.isdigit() or not luhn):
             raise hotelmanagementException("Número de tarjeta de crédito no válido")
 
-        if not (len(id_card) == 9):
+        if (len(id_card) != 9):
             raise hotelmanagementException("DNI no válido")
 
         if not (10 <= len(name_surname) <= 50 and len(
@@ -73,7 +73,7 @@ class hotelManager:
         if not (len(phone_number) == 9 and phone_number.isdigit()):
             raise hotelmanagementException("Número de teléfono no válido")
 
-        if room_type not in ['single', 'double', 'suite']:
+        if room_type.lower() not in ['single', 'double', 'suite']:
             raise hotelmanagementException("Tipo de habitación no válido")
 
         try:
