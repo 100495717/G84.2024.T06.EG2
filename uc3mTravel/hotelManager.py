@@ -111,7 +111,7 @@ class hotelManager:
             "localizer": str(localizer)
         }
         # Almacenar los datos de la reserva en un archivo JSON
-        with open("reservas.json", "w", encoding= "utf-8") as f:
+        with open("reservas.json", "w", encoding="utf-8") as f:
             json.dump(reservationData, f)
             f.write('\n')
 

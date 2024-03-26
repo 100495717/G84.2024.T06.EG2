@@ -102,7 +102,7 @@ class hotelStay():
         if not localizer or not idCard:
             raise hotelmanagementException("El JSON no tiene la estructura correcta")
 
-        with open("reservas.json","r", encoding= "utf-8") as f:
+        with open("../src/main/python/reservas.json", "r", encoding="utf-8") as f:
             reservas = json.load(f)
         if localizer not in reservas:
             raise hotelmanagementException("No hay localizador")
@@ -113,7 +113,7 @@ class hotelStay():
         instancia = hotelStay(idCard,localizer,numDays,tipohab)
         roomKey = instancia.room_key
 
-        with open("estancias.json","w", encoding= "utf-8") as f:
+        with open("../src/main/python/estancias.json", "w", encoding="utf-8") as f:
             json.dump(instancia.__dict__,f)
             f.write('\n')
 
@@ -126,7 +126,7 @@ class hotelStay():
         if not room_key:
             raise hotelmanagementException("Introduce una room_key")
         try:
-            with open("estancias.json", "r", encoding= "utf-8") as f:
+            with open("../src/main/python/estancias.json", "r", encoding="utf-8") as f:
                 estancias = json.load(f)
         except FileNotFoundError as exc:
             raise hotelmanagementException("No se encuentra el archivo de "
@@ -149,7 +149,7 @@ class hotelStay():
             if ahora != departure:
                 raise hotelmanagementException("La fecha de salida no es válida")
             # Registrar la salida en el archivo
-            with open("checkout.json", "a", encoding = "utf-8") as f:
+            with open("../src/main/python/checkout.json", "a", encoding ="utf-8") as f:
                 checkoutData = {
                     "checkout_time": ahora,
                     "room_key": room_key

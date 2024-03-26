@@ -10,6 +10,7 @@ class testHotel(unittest.TestCase):
             credit_card_number="5105105105105100", name_surname="JOSE LOPEZ",
             id_card="12345678N", phone_number="912345678", room_type=
             "single", arrival="21/03/2024", num_days="1")
+        print(value)
         self.assertEqual(value, "046a9eb94277ea43bc85659db085cef4")
 
     def test_roomReservation_novalid1(self):
