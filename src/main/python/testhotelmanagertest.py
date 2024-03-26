@@ -166,6 +166,77 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message
               )
         self.assertEqual(cm.exception.message, "Número de días no válido")
+
+
+    def test_roomReservation_novalid14(self):
+        # Fecha de entrada no válida
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="9685646365567646", name_surname="ANGELINES CHACÓN",
+                id_card="34585853S", phone_number="678096573",
+                room_type="SUITE", arrival="diecinueve", num_days="8")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
+
+    def test_roomReservation_novalid15(self):
+        # día no válido
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="4026541243563289",
+                name_surname="MARIANO DELGADO",
+                id_card="52652396L", phone_number="696633525",
+                room_type="SUITE", arrival="45/05/2025", num_days="1")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "El dia introducido no es "
+                                               "válido")
+
+
+    def test_roomReservation_novalid16(self):
+        # día no válido
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5183423542879143",
+                name_surname="PALOMA CUESTA",
+                id_card="88774422P", phone_number="666555444",
+                room_type="SUITE", arrival="0/06/2024", num_days="1")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "El dia introducido no es "
+                                               "válido")
+
+    def test_roomReservation_novalid17(self):
+        # día no válido, mes con 30 dias
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5537873668437829",
+                name_surname="NIEVES CUESTA",
+                id_card="11554477Q", phone_number="645312978",
+                room_type="SUITE", arrival="31/06/2024", num_days="1")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "El dia introducido no es "
+                                               "válido")
+
+    def test_roomReservation_novalid18(self):
+        # mes no válido
+        myReservation = hotelManager()
+        with self.assertRaises(hotelmanagementException) as cm:
+            value = myReservation.roomReservation(
+                credit_card_number="5537873668437832",
+                name_surname="MIKEL OYARZABAL",
+                id_card="87452654S", phone_number="699888777",
+                room_type="SUITE", arrival="31/14/20274", num_days="1")
+        print(cm.exception.message
+              )
+        self.assertEqual(cm.exception.message, "Mes no válido")
+
+
     def main(self):
         unittest.main()
 

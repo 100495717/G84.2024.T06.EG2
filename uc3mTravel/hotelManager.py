@@ -78,6 +78,16 @@ class hotelManager:
 
         try:
             arrivalDate = datetime.strptime(arrival, "%d/%m/%Y")
+            dia = arrivalDate.timetuple().tm_yday
+            mes = arrivalDate.month
+            if not 1<= dia <= 31:
+                raise hotelmanagementException("El dia introducido no es válido")
+            if 1 <= mes <=12:
+                raise hotelmanagementException("Mes no válido")
+            if mes not in ("01", "03", "05", "07", "08", "10", "12"):
+                if not 1<= dia <=30:
+                    raise hotelmanagementException("El dia introducido no es válido")
+
         except ValueError as exc:
             raise hotelmanagementException("Fecha de entrada no válida") \
                 from exc
