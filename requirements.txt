@@ -7,3 +7,4 @@ platformdirs==4.2.0
 pybuilder==0.13.11
 pylint==3.0.3
 tomlkit==0.12.3
+freezegun==1.4.0

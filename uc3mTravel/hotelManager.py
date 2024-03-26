@@ -4,15 +4,26 @@ from uc3mTravel.hotelmanagementException import hotelmanagementException
 from uc3mTravel.hotelReservation import hotelReservation
 
 
-
 class hotelManager:
     def __init__(self):
         pass
 
     def validatecreditcard(self, x):
-        # PLEASE INCLUDE HERE THE CODE FOR VALIDATING THE GUID
-        # RETURN TRUE IF THE GUID IS RIGHT, OR FALSE IN OTHER CASE
-        return True
+        suma = 0
+        digitos = str(x)
+        digitosInvertidos = digitos[::-1]
+        for i, digito in enumerate(digitosInvertidos):
+            if i % 2 == 0:
+                suma += int(digito)
+            else:
+                digitoDoble = int(digito) * 2
+                listdigDoble = str(digitoDoble)
+                if len(listdigDoble) > 1:
+                    suma += int(listdigDoble[0])
+                    suma += int(listdigDoble[1])
+                else:
+                    suma += digitoDoble
+        return suma % 10 == 0
 
     def readdatafromJSOn(self, fi):
 
@@ -43,16 +54,16 @@ class hotelManager:
     def roomReservation(self, credit_card_number, id_card, name_surname,
                         phone_number, room_type, arrival, num_days):
 
-        if not credit_card_number or id_card or name_surname or \
-                phone_number or room_type or arrival or num_days:
+        if not credit_card_number or not id_card or not name_surname or not \
+                phone_number or not room_type or not arrival or not num_days:
             raise hotelmanagementException("Faltan datos para la reserva")
 
-        luhn = self.luhn(credit_card_number)
-        if not(len(credit_card_number) == 16 or
-                credit_card_number.isdigit() or luhn):
+        luhn = self.validatecreditcard(credit_card_number)
+        if (len(credit_card_number) != 16 or not
+                credit_card_number.isdigit() or not luhn):
             raise hotelmanagementException("Número de tarjeta de crédito no válido")
 
-        if not (len(id_card) == 9 and id_card.isdigit()):
+        if not (len(id_card) == 9):
             raise hotelmanagementException("DNI no válido")
 
         if not (10 <= len(name_surname) <= 50 and len(
@@ -71,22 +82,23 @@ class hotelManager:
             raise hotelmanagementException("Fecha de entrada no válida") \
                 from exc
 
-        if not (1 <= num_days <= 10):
+        if not (1 <= int(num_days) <= 10):
             raise hotelmanagementException("Número de días no válido")
 
-            # Generar una firma MD5 como identificador de reserva
 
-        localizer = hotelReservation.LOCALIZER
+        localizer = hotelReservation(credit_card_number, id_card,
+                                       name_surname, phone_number,
+                                       room_type, num_days).LOCALIZER
 
         reservationData = {
-            "credit_card_number": credit_card_number,
-            "id_card": id_card,
-            "name_surname": name_surname,
-            "phone_number": phone_number,
-            "room_type": room_type,
-            "arrival": arrivalDate,
-            "num_days": num_days,
-            "localizer": localizer
+            "credit_card_number": str(credit_card_number),
+            "id_card": str(id_card),
+            "name_surname": str(name_surname),
+            "phone_number": str(phone_number),
+            "room_type": str(room_type),
+            "arrival": str(arrivalDate),
+            "num_days": str(num_days),
+            "localizer": str(localizer)
         }
         # Almacenar los datos de la reserva en un archivo JSON
         with open("reservas.json", "w", encoding= "utf-8") as f:
@@ -95,19 +107,3 @@ class hotelManager:
 
         return localizer
 
-    def luhn(self,numero):
-        suma = 0
-        digitos = str(numero)
-        digitosInvertidos = digitos[::-1]
-        for i, digito in enumerate(digitosInvertidos):
-            if i % 2 == 0:
-                suma += int(digito)
-            else:
-                digitoDoble = int(digito) * 2
-                listdigDoble = str(digitoDoble)
-                if len(listdigDoble) > 1:
-                    suma += int(listdigDoble[0])
-                    suma += int(listdigDoble[1])
-                else:
-                    suma += digitoDoble
-        return suma % 10 == 0
