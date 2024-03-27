@@ -3,7 +3,7 @@ from datetime import datetime
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 from uc3mTravel.hotelReservation import hotelReservation
 from uc3mTravel.hotelStay import hotelStay
-
+from pathlib import Path
 
 class hotelManager:
     def __init__(self):
@@ -112,7 +112,8 @@ class hotelManager:
             "localizer": str(localizer)
         }
         # Almacenar los datos de la reserva en un archivo JSON
-        with open("reservas.json", "w", encoding="utf-8") as f:
+        with open(str(Path.home()) + str(
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/reservas.json")), "w", encoding="utf-8") as f:
             json.dump(reservationData, f)
             f.write('\n')
 
@@ -140,7 +141,8 @@ class hotelManager:
         if len(IdCard) > 9:
             raise hotelmanagementException("El DNI está duplicado")
 
-        with open("reservas.json", "r", encoding="utf-8") as f:
+        with open(str(Path.home()) + str(
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/reservas.json")), "r", encoding="utf-8") as f:
             reservas = json.load(f)
         localizador = reservas.get("localizer")
         numDays = reservas.get("num_days")
@@ -149,9 +151,16 @@ class hotelManager:
             raise hotelmanagementException("El localizador no coincide con los datos almacenados")
         instancia = hotelStay(IdCard, Localizer, numDays, tipohab)
         roomKey = instancia.room_key
-        instancia = instancia.__dict__
-        with open("estancias.json", "w", encoding="utf-8") as f:
-            json.dump(instancia, f)
+        diccionario = {
+          "IdCard": str(IdCard),
+          "Localizador": str(Localizer),
+          "numDays": str(numDays),
+          "tipo_hab": str(tipohab),
+          "room_key":str(roomKey),
+        }
+        with open(str(Path.home()) + str(
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/estancias.json")), "w", encoding="utf-8") as f:
+            json.dump(diccionario, f)
             f.write('\n')
 
         return roomKey
@@ -161,7 +170,8 @@ class hotelManager:
         if not room_key:
             raise hotelmanagementException("Introduce una room_key")
         try:
-            with open("estancias.json", "r", encoding="utf-8") as f:
+            with open(str(Path.home()) + str(
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/estancias.json")), "r", encoding="utf-8") as f:
                 estancias = json.load(f)
         except FileNotFoundError as exc:
             raise hotelmanagementException("No se encuentra el archivo de "
@@ -175,6 +185,11 @@ class hotelManager:
         if room_key not in estancias:
             raise hotelmanagementException("El código de habitación no está registrado")
 
+        IdCard = estancias.get("_hotelStay__idcard")
+        Localizer = estancias.get("_hotelStay__localizer")
+        numdays = estancias.get()
+
+
         estanciaActual = estancias[room_key]
         departure = estanciaActual["departure"]
 
@@ -184,7 +199,8 @@ class hotelManager:
             if ahora != departure:
                 raise hotelmanagementException("La fecha de salida no es válida")
             # Registrar la salida en el archivo
-            with open("checkout.json", "a", encoding ="utf-8") as f:
+            with open(str(Path.home()) + str(
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/estancias.json")), "a", encoding ="utf-8") as f:
                 checkoutData = {
                     "checkout_time": ahora,
                     "room_key": room_key
@@ -199,5 +215,5 @@ class hotelManager:
 
 if __name__ == "__main__":
     valor = hotelManager()
-    valorcin = valor.guestArrival("valid_test.json")
+    valorcin = valor.guestArrival(str(Path.home()) + str(Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/RF2_TEST/valid_test.json")))
     print(valorcin)
