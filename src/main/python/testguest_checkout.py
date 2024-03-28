@@ -11,7 +11,7 @@ class testGuestcheckout(unittest.TestCase):
         #Ejecuta correctamente
         valor = hotelManager()
         checkout = valor.guestCheckout(
-            "25e7966d648733f9721a9fa9d9e0618e014e516b62e9c48fd2a3fe2e559f3139")
+            "52de6a8bb4b91fef1e8c66445ad41d822f9ebc5701af767c719a1af3a052fa68")
         print("Check_out realizado correctamente")
         self.assertEqual(checkout,True)
 
