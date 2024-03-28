@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 from uc3mTravel.hotelReservation import hotelReservation
 from uc3mTravel.hotelStay import hotelStay
@@ -147,6 +147,8 @@ class hotelManager:
         localizador = reservas.get("localizer")
         numDays = reservas.get("num_days")
         tipohab = reservas.get("room_type")
+        arrival = reservas.get("arrival")
+
         if Localizer != localizador:
             raise hotelmanagementException("El localizador no coincide con los datos almacenados")
         instancia = hotelStay(IdCard, Localizer, numDays, tipohab)
@@ -156,6 +158,7 @@ class hotelManager:
           "Localizador": str(Localizer),
           "numDays": str(numDays),
           "tipo_hab": str(tipohab),
+          "arrival": str(arrival),
           "room_key":str(roomKey),
         }
         with open(str(Path.home()) + str(
@@ -173,6 +176,8 @@ class hotelManager:
             with open(str(Path.home()) + str(
                 Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/estancias.json")), "r", encoding="utf-8") as f:
                 estancias = json.load(f)
+                arrival = estancias.get("arrival")
+                numdays = estancias.get("numDays")
         except FileNotFoundError as exc:
             raise hotelmanagementException("No se encuentra el archivo de "
                                            "datos") from exc
@@ -182,27 +187,26 @@ class hotelManager:
         except Exception as exc:
             raise hotelmanagementException("Error desconocido al procesar el archivo de datos") from exc
 
-        if room_key not in estancias:
+        if room_key != estancias["room_key"]:
             raise hotelmanagementException("El código de habitación no está registrado")
 
-        IdCard = estancias.get("_hotelStay__idcard")
-        Localizer = estancias.get("_hotelStay__localizer")
-        numdays = estancias.get()
+        entra = datetime.strptime(arrival, "%Y-%m-%d %H:%M:%S")
+        dias = int(numdays)
+        departure = entra + timedelta(days=dias)
 
-
-        estanciaActual = estancias[room_key]
-        departure = estanciaActual["departure"]
 
         try:
             # Verificar la fecha de salida
-            ahora = datetime.utcnow().timestamp()
+            ahora = datetime.utcnow()
+            ahora_str = ahora.strftime("%Y-%m-%d %H:%M:%S")
             if ahora != departure:
                 raise hotelmanagementException("La fecha de salida no es válida")
             # Registrar la salida en el archivo
             with open(str(Path.home()) + str(
-                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/estancias.json")), "a", encoding ="utf-8") as f:
+                Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/checkout"
+                     ".json")), "w", encoding ="utf-8") as f:
                 checkoutData = {
-                    "checkout_time": ahora,
+                    "checkout_time": ahora_str,
                     "room_key": room_key
                 }
                 json.dump(checkoutData, f)
