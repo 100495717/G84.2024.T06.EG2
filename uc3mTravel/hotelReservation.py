@@ -85,7 +85,3 @@ class hotelReservation:
     @NUMDAYS.setter
     def NUMDAYS(self, value):
         self.__num_days = value
-
-
-
-

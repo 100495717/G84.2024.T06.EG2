@@ -4,7 +4,7 @@ from uc3mTravel.hotelManager import hotelManager
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 class testHotel(unittest.TestCase):
     @freeze_time("2024-03-26")
-    def test_roomReservationvalid(self):
+    def testroomReservationvalid(self):
         myReservation = hotelManager()
         value = myReservation.roomReservation(
             credit_card_number="5105105105105100", name_surname="JOSE LOPEZ",
@@ -13,7 +13,7 @@ class testHotel(unittest.TestCase):
         print(value)
         self.assertEqual(value, "046a9eb94277ea43bc85659db085cef4")
 
-    def test_roomReservation_novalid1(self):
+    def testroomReservationnovalid1(self):
         #Tarjeta de crédito no valida(no cumple el algoritmo de luhn)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -25,7 +25,7 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "Número de tarjeta de crédito no válido")
 
-    def test_roomReservation_novalid2(self):
+    def testroomReservationnovalid2(self):
         # Tarjeta de crédito no valida(longitud < 16)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -37,7 +37,7 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "Número de tarjeta de crédito no válido")
 
-    def test_roomReservation_novalid3(self):
+    def testroomReservationnovalid3(self):
         # Tarjeta de crédito no valida(longitud > 16)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -48,7 +48,7 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "Número de tarjeta de crédito no válido")
 
-    def test_roomReservation_novalid4(self):
+    def testroomReservationnovalid4(self):
         # DNI no válido(longitud < 9)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -59,7 +59,7 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "DNI no válido")
 
-    def test_roomReservation_novalid5(self):
+    def testroomReservationnovalid5(self):
         # Tarjeta de crédito no valida(longitud > 9)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -71,7 +71,7 @@ class testHotel(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "DNI no válido")
 
-    def test_roomReservation_novalid6(self):
+    def testroomReservationnovalid6(self):
         # Nombre no válido (solo una cadena)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -83,7 +83,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
 
-    def test_roomReservation_novalid7(self):
+    def testroomReservationnovalid7(self):
         # Nombre no válido (está fuera del rango)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -95,7 +95,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
 
-    def test_roomReservation_novalid8(self):
+    def testroomReservationnovalid8(self):
         # Nombre no válido (FUERA DEL RANGO POR ENCIMA)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -108,7 +108,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Nombre y apellidos no válidos")
 
-    def test_roomReservation_novalid9(self):
+    def testroomReservationnovalid9(self):
         # Número de teléfono no válido (no son números)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -120,7 +120,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Número de teléfono no válido")
 
-    def test_roomReservation_novalid10(self):
+    def testroomReservationnovalid10(self):
         # Número de teléfono no válido (no son 9 números)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -132,7 +132,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Número de teléfono no válido")
 
-    def test_roomReservation_novalid11(self):
+    def testroomReservationnovalid11(self):
         # Tipo de habitación no válido
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -144,7 +144,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Tipo de habitación no válido")
 
-    def test_roomReservation_novalid12(self):
+    def testroomReservationnovalid12(self):
         # Número de días no válido (por encima del rango)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -156,7 +156,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Número de días no válido")
 
-    def test_roomReservation_novalid13(self):
+    def testroomReservationnovalid13(self):
         # Número de días no válido (por debajo del rango)
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -169,7 +169,7 @@ class testHotel(unittest.TestCase):
         self.assertEqual(cm.exception.message, "Número de días no válido")
 
 
-    def test_roomReservation_novalid14(self):
+    def testroomReservationnovalid14(self):
         # Fecha de entrada no válida
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -181,7 +181,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
 
-    def test_roomReservation_novalid15(self):
+    def testroomReservationnovalid15(self):
         # día no válido
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -195,7 +195,7 @@ class testHotel(unittest.TestCase):
         self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
 
 
-    def test_roomReservation_novalid16(self):
+    def testroomReservationnovalid16(self):
         # día no válido
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -208,7 +208,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
 
-    def test_roomReservation_novalid17(self):
+    def testroomReservationnovalid17(self):
         # día no válido, mes con 30 dias
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:
@@ -221,7 +221,7 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
 
-    def test_roomReservation_novalid18(self):
+    def testroomReservationnovalid18(self):
         # mes no válido
         myReservation = hotelManager()
         with self.assertRaises(hotelmanagementException) as cm:

@@ -71,14 +71,3 @@ class hotelStay():
     @type.setter
     def type(self, value):
         self.__type = value
-
-
-
-
-
-
-
-
-
-
-

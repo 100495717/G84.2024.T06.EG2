@@ -238,7 +238,7 @@ name-group=
 
 # Regular expression which should only match function or class names that do
 # not require a docstring.
-no-docstring-rgx=^_
+no-docstring-rgx=
 
 # List of decorators that produce properties, such as abc.abstractproperty. Add
 # to this list to register other decorators that produce valid properties.
@@ -269,11 +269,11 @@ variable-naming-style=camelCase
 check-protected-access-in-special-methods=no
 
 # List of method names used to declare (i.e. assign) instance attributes.
-defining-attr-methods=_init_,
-                      _new_,
+defining-attr-methods=init,
+                      new,
                       setUp,
                       asyncSetUp,
-                      _post_init_
+                      post_init
 
 # List of member names, which should be excluded from the protected access
 # warning.
@@ -317,7 +317,7 @@ max-locals=15
 max-parents=7
 
 # Maximum number of public methods for a class (see R0904).
-max-public-methods=20
+max-public-methods=50
 
 # Maximum number of return / yield for function / method body.
 max-returns=6
@@ -371,10 +371,10 @@ single-line-if-stmt=no
 # one.
 allow-any-import-level=
 
-# Allow explicit reexports by alias from a package _init_.
+# Allow explicit reexports by alias from a package init.
 allow-reexport-from-package=no
 
-# Allow wildcard imports from modules that define _all_.
+# Allow wildcard imports from modules that define all.
 allow-wildcard-with-all=no
 
 # Deprecated modules which should not be used, separated by a comma.
@@ -451,6 +451,7 @@ disable=raw-checker-failed,
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once). See also the "--disable" option for examples.
 enable=
+
 
 
 [METHOD_ARGS]
@@ -640,7 +641,7 @@ dummy-variables-rgx=([a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
 # Argument names that match this expression will be ignored.
 ignored-argument-names=.*|^ignored|^unused_
 
-# Tells whether we should check for unused import in _init_ files.
+# Tells whether we should check for unused import in init files.
 init-import=no
 
 # List of qualified module names which can have objects that can redefine

@@ -1,9 +1,10 @@
 import json
 from datetime import datetime, timedelta
+from pathlib import Path
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 from uc3mTravel.hotelReservation import hotelReservation
 from uc3mTravel.hotelStay import hotelStay
-from pathlib import Path
+
 
 class hotelManager:
     def __init__(self):
@@ -132,13 +133,13 @@ class hotelManager:
                                            "JSON") from exc
         except Exception as exc:
             raise hotelmanagementException("Error desconocido") from exc
-        Localizer = data.get("Localizer")
-        IdCard = data.get("IdCard")
-        if not Localizer or not IdCard:
+        localizer = data.get("localizer")
+        idCard = data.get("idCard")
+        if not localizer or not idCard:
             raise hotelmanagementException("El JSON no tiene la estructura correcta")
-        if len(Localizer) > 32:
+        if len(localizer) > 32:
             raise hotelmanagementException("El localizador está duplicado")
-        if len(IdCard) > 9:
+        if len(idCard) > 9:
             raise hotelmanagementException("El DNI está duplicado")
 
         with open(str(Path.home()) + str(
@@ -149,13 +150,13 @@ class hotelManager:
         tipohab = reservas.get("room_type")
         arrival = reservas.get("arrival")
 
-        if Localizer != localizador:
+        if localizer != localizador:
             raise hotelmanagementException("El localizador no coincide con los datos almacenados")
-        instancia = hotelStay(IdCard, Localizer, numDays, tipohab)
+        instancia = hotelStay(idCard, localizer, numDays, tipohab)
         roomKey = instancia.room_key
         diccionario = {
-          "IdCard": str(IdCard),
-          "Localizador": str(Localizer),
+          "idCard": str(idCard),
+          "Localizador": str(localizer),
           "numDays": str(numDays),
           "tipo_hab": str(tipohab),
           "arrival": str(arrival),
@@ -198,7 +199,7 @@ class hotelManager:
         try:
             # Verificar la fecha de salida
             ahora = datetime.utcnow()
-            ahora_str = ahora.strftime("%Y-%m-%d %H:%M:%S")
+            ahoraStr = ahora.strftime("%Y-%m-%d %H:%M:%S")
             if ahora != departure:
                 raise hotelmanagementException("La fecha de salida no es válida")
             # Registrar la salida en el archivo
@@ -206,7 +207,7 @@ class hotelManager:
                 Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/checkout"
                      ".json")), "w", encoding ="utf-8") as f:
                 checkoutData = {
-                    "checkout_time": ahora_str,
+                    "checkout_time": ahoraStr,
                     "room_key": room_key
                 }
                 json.dump(checkoutData, f)
