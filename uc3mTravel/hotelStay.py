@@ -1,8 +1,7 @@
 ''' Class HotelStay (GE2.2) '''
-import json
 from datetime import datetime
 import hashlib
-from uc3mTravel.hotelmanagementException import hotelmanagementException
+
 
 
 class hotelStay():

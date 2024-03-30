@@ -234,11 +234,8 @@ class testHotel(unittest.TestCase):
               )
         self.assertEqual(cm.exception.message, "Fecha de entrada no válida")
 
-    def main(self):
+    if __name__ == "__main__":
         unittest.main()
-
-    if __name__ == "main":
-        main()
 
 
 
