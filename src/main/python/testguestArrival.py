@@ -1,6 +1,6 @@
-from pathlib import Path
 import unittest
 from freezegun import freeze_time
+from pathlib import Path
 from uc3mTravel.hotelManager import hotelManager
 from uc3mTravel.hotelmanagementException import hotelmanagementException
 

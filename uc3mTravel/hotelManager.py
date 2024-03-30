@@ -133,8 +133,8 @@ class hotelManager:
                                            "JSON") from exc
         except Exception as exc:
             raise hotelmanagementException("Error desconocido") from exc
-        localizer = data.get("localizer")
-        idCard = data.get("idCard")
+        localizer = data.get("Localizer")
+        idCard = data.get("IdCard")
         if not localizer or not idCard:
             raise hotelmanagementException("El JSON no tiene la estructura correcta")
         if len(localizer) > 32:
