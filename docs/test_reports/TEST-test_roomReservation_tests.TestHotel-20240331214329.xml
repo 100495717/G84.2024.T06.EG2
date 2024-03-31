@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_roomReservation_tests.TestHotel-20240331214329" tests="19" file="test_roomReservation_tests.py" time="0.020" timestamp="2024-03-31T21:43:30" failures="0" errors="0" skipped="0">
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid1" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid10" time="0.000" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid11" time="0.000" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid12" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid13" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid14" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid15" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid16" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid17" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid18" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid2" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid3" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid4" time="0.002" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid5" time="0.000" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid6" time="0.000" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid7" time="0.000" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid8" time="0.001" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationnovalid9" time="0.002" timestamp="2024-03-31T21:43:30"/>
+	<testcase classname="test_roomReservation_tests.TestHotel" name="test_roomReservationvalid" time="0.005" timestamp="2024-03-31T21:43:30"/>
+</testsuite>

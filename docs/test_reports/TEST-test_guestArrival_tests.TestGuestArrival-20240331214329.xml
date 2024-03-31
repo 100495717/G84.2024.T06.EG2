@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_guestArrival_tests.TestGuestArrival-20240331214329" tests="21" file="test_guestArrival_tests.py" time="0.054" timestamp="2024-03-31T21:43:29" failures="0" errors="0" skipped="0">
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupIdcard" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupcoma" time="0.000" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupcorch1" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupcorch2" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupdni" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupdosp1" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_dupdosp2" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_duplocalizador" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_duplocalizer" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_no1stmodule" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_no2ndmodule" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_noIdcard" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_noLocalizer" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nocoma" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nocorch1" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nocorch2" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nodni" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nodosp1" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nodosp2" time="0.002" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_nolocalizador" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestArrival_tests.TestGuestArrival" name="test_validcase" time="0.029" timestamp="2024-03-31T21:43:29"/>
+</testsuite>

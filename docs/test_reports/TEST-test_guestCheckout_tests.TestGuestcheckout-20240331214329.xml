@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_guestCheckout_tests.TestGuestcheckout-20240331214329" tests="3" file="test_guestCheckout_tests.py" time="0.011" timestamp="2024-03-31T21:43:29" failures="0" errors="0" skipped="0">
+	<testcase classname="test_guestCheckout_tests.TestGuestcheckout" name="test_invalidcasecheckout2" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestCheckout_tests.TestGuestcheckout" name="test_invalidcheckout1" time="0.001" timestamp="2024-03-31T21:43:29"/>
+	<testcase classname="test_guestCheckout_tests.TestGuestcheckout" name="test_validcasecheckout1" time="0.009" timestamp="2024-03-31T21:43:29"/>
+</testsuite>
