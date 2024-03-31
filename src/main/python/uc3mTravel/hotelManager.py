@@ -1,9 +1,9 @@
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from uc3mTravel.hotelmanagementException import hotelmanagementException
-from uc3mTravel.hotelReservation import hotelReservation
-from uc3mTravel.hotelStay import hotelStay
+from .hotelmanagementException import hotelmanagementException
+from .hotelReservation import hotelReservation
+from .hotelStay import hotelStay
 
 
 class hotelManager:

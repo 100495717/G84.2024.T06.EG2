@@ -9,9 +9,9 @@ use_plugin("python.distutils")
 
 
 name = "EG2"
-defaultTask = "publish"
+default_task = "publish"
 
 
 @init
-def setProperties(project):
-    pass
+def set_properties(project):
+    project.set_property('coverage_break_build', False)

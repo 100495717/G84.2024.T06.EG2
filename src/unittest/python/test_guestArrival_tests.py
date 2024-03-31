@@ -1,13 +1,13 @@
 import unittest
 from freezegun import freeze_time
 from pathlib import Path
-from uc3mTravel.hotelManager import hotelManager
-from uc3mTravel.hotelmanagementException import hotelmanagementException
+from uc3mTravel import hotelManager
+from uc3mTravel import hotelmanagementException
 
 
-class testGuestArrival(unittest.TestCase):
+class TestGuestArrival(unittest.TestCase):
     @freeze_time("2024-03-26")
-    def testvalidcase(self):
+    def test_validcase(self):
         #Ejecuta correctamente
         rutaArchivo = str(Path.home()) + str(Path(
             "/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/RF2_TEST/valid_test.json"))
@@ -15,7 +15,7 @@ class testGuestArrival(unittest.TestCase):
         roomKey = valor.guestArrival(rutaArchivo)
         self.assertEqual(roomKey,
                          "52de6a8bb4b91fef1e8c66445ad41d822f9ebc5701af767c719a1af3a052fa68")
-    def testdupcorch1(self):
+    def test_dupcorch1(self):
         #Tiene el primer corchete duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -25,7 +25,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testdupcorch2(self):
+    def test_dupcorch2(self):
         #Tiene el segundo corchete duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -35,7 +35,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnocorch1(self):
+    def test_nocorch1(self):
         #No tiene el primer corchete
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -45,7 +45,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnocorch2(self):
+    def test_nocorch2(self):
         #No tiene el segundo corchete
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -55,7 +55,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testdupcoma(self):
+    def test_dupcoma(self):
         #Tiene la coma entre módulos duplicada
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -65,7 +65,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnocoma(self):
+    def test_nocoma(self):
         #No tiene la coma entre módulos
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -75,7 +75,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testno1stmodule(self):
+    def test_no1stmodule(self):
         #No existe el primer módulo
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -85,7 +85,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El JSON no tiene la estructura correcta")
 
-    def testno2ndmodule(self):
+    def test_no2ndmodule(self):
         #No existe el segundo módulo
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -95,7 +95,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testduplocalizer(self):
+    def test_duplocalizer(self):
         #El localizador está duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -105,7 +105,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnoLocalizer(self):
+    def test_noLocalizer(self):
         #El localizador no existe
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -115,7 +115,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testdupdosp1(self):
+    def test_dupdosp1(self):
         #Tiene los dos puntos del Localizer duplicados
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -125,7 +125,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnodosp1(self):
+    def test_nodosp1(self):
         #No tiene los dos puntos del Localizer
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -135,7 +135,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testduplocalizador(self):
+    def test_duplocalizador(self):
         #El valor del localizador está duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -144,7 +144,7 @@ class testGuestArrival(unittest.TestCase):
             roomKey = valor.guestArrival(rutaArchivo)
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El localizador está duplicado")
-    def testnolocalizador(self):
+    def test_nolocalizador(self):
         #El localizador está vacío
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -153,7 +153,7 @@ class testGuestArrival(unittest.TestCase):
             roomKey = valor.guestArrival(rutaArchivo)
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
-    def testdupIdcard(self):
+    def test_dupIdcard(self):
     #El IDCARD está duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -163,7 +163,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnoIdcard(self):
+    def test_noIdcard(self):
         #El IDCARD no existe
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -173,7 +173,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testdupdosp2(self):
+    def test_dupdosp2(self):
     #Los dos puntos del IDCARD están duplicados
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -183,7 +183,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testnodosp2(self):
+    def test_nodosp2(self):
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
                 Path("/PycharmProjects/G84.2024.T06.EG2/src/JsonFiles/RF2_TEST/no_dospuntos2.json"))
@@ -192,7 +192,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def testdupdni(self):
+    def test_dupdni(self):
     #El contenido de IDCARD está duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -202,7 +202,7 @@ class testGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El DNI está duplicado")
 
-    def testnodni(self):
+    def test_nodni(self):
         # El contenido de IDCARD está vacío
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(

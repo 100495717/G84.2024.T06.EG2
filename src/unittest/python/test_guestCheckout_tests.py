@@ -1,13 +1,13 @@
 import unittest
 from freezegun import freeze_time
-from uc3mTravel.hotelManager import hotelManager
-from uc3mTravel.hotelmanagementException import hotelmanagementException
+from uc3mTravel import hotelManager
+from uc3mTravel import hotelmanagementException
 
 
 
-class testGuestcheckout(unittest.TestCase):
+class TestGuestcheckout(unittest.TestCase):
     @freeze_time("2024-03-22 00:00:00")
-    def testvalidcasecheckout1(self):
+    def test_validcasecheckout1(self):
         #Ejecuta correctamente
         valor = hotelManager()
         checkout = valor.guestCheckout(
@@ -15,7 +15,7 @@ class testGuestcheckout(unittest.TestCase):
         print("Check_out realizado correctamente")
         self.assertEqual(checkout,True)
 
-    def testinvalidcheckout1(self):
+    def test_invalidcheckout1(self):
         #No introduce room_key
         with self.assertRaises(hotelmanagementException) as cm:
             valor = hotelManager()
@@ -24,7 +24,7 @@ class testGuestcheckout(unittest.TestCase):
         self.assertEqual(cm.exception.message,
                          "Introduce una room_key")
 
-    def testinvalidcasecheckout2(self):
+    def test_invalidcasecheckout2(self):
         #Room_key no registrada
         with self.assertRaises(hotelmanagementException) as cm:
             valor = hotelManager()
