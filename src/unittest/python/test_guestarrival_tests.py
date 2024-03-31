@@ -1,8 +1,8 @@
 import unittest
-from freezegun import freeze_time
 from pathlib import Path
-from uc3mTravel import hotelManager
-from uc3mTravel import hotelmanagementException
+from freezegun import freeze_time
+from uc3m_Travel import hotelManager
+from uc3m_Travel import hotelmanagementException
 
 
 class TestGuestArrival(unittest.TestCase):
@@ -105,7 +105,7 @@ class TestGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def test_noLocalizer(self):
+    def test_nolocalizer(self):
         #El localizador no existe
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -153,7 +153,7 @@ class TestGuestArrival(unittest.TestCase):
             roomKey = valor.guestArrival(rutaArchivo)
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
-    def test_dupIdcard(self):
+    def test_dupidcard(self):
     #El IDCARD está duplicado
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(
@@ -163,7 +163,7 @@ class TestGuestArrival(unittest.TestCase):
         print(cm.exception.message)
         self.assertEqual(cm.exception.message, "El archivo no tiene formato JSON")
 
-    def test_noIdcard(self):
+    def test_noidcard(self):
         #El IDCARD no existe
         with self.assertRaises(hotelmanagementException) as cm:
             rutaArchivo = str(Path.home()) + str(

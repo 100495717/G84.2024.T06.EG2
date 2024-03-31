@@ -1,7 +1,7 @@
 import unittest
 from freezegun import freeze_time
-from uc3mTravel import hotelManager
-from uc3mTravel import hotelmanagementException
+from uc3m_Travel import hotelManager
+from uc3m_Travel import hotelmanagementException
 
 
 
